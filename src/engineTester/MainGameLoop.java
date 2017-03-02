@@ -19,8 +19,8 @@ public class MainGameLoop
 		DisplayManger.createDisplay();
 		
 		Loader loader = new Loader();
-		Renderer renderer = new Renderer();
 		StaticShader shader = new StaticShader();
+		Renderer renderer = new Renderer(shader);
 		
 		//Triangles
 		float[] vertices = {
@@ -47,12 +47,13 @@ public class MainGameLoop
 		RawModel model  = loader.loadToVAO(vertices,textureCoords,indices);
 		ModelTexture texture = new ModelTexture(loader.loadTexture("image"));
 		TexturedModel staticModel = new TexturedModel(model, texture);
-		Entity entity = new Entity(staticModel, new Vector3f(-1,0,0), 0,0,0,1);
+		Entity entity = new Entity(staticModel, new Vector3f(0,0,-1), 0,0,0,1);
 		
 		while(!Display.isCloseRequested()) 
 		{
-			renderer.prepare();
+			entity.increasePosition(0, 0, -0.1f);
 			
+			renderer.prepare();			
 			//game logic
 			
 			//render
