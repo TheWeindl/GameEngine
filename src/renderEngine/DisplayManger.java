@@ -11,7 +11,7 @@ public class DisplayManger
 {
 	private static final int WIDTH = 1280;
 	private static final int HEIGHT = 720;
-	private static final int FPS_CAP = 30;
+	private static final int FPS_CAP = 60;
 	
 	public static void createDisplay()
 	{
@@ -27,7 +27,6 @@ public class DisplayManger
 		} 
 		catch (LWJGLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
