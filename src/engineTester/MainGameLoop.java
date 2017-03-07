@@ -24,11 +24,11 @@ public class MainGameLoop {
          
         
         //Vertices, indices and textures replaced by the OBJ loader
-        RawModel model = OBJLoader.loadObjModel("stall", loader);
+        RawModel model = OBJLoader.loadObjModel("dragon", loader);
          
         //TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("image")));			//Textures for the demo cube
         TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("stallTexture")));
-         
+ 
         Entity entity = new Entity(staticModel, new Vector3f(0,-7,-30),0,0,0,1);
          
         Camera camera = new Camera();
