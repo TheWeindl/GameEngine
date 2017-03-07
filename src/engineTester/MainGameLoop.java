@@ -9,6 +9,7 @@ import entities.Light;
 import models.RawModel;
 import renderEngine.DisplayManger;
 import renderEngine.Loader;
+import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
 import renderEngine.Renderer;
 import shaders.StaticShader;
@@ -20,10 +21,7 @@ public class MainGameLoop {
  
         DisplayManger.createDisplay();
         Loader loader = new Loader();
-        StaticShader shader = new StaticShader();
-        Renderer renderer = new Renderer(shader);
-         
-        
+            
         //Vertices, indices and textures replaced by the OBJ loader
         RawModel model = OBJLoader.loadObjModel("dragon", loader);
          
@@ -33,24 +31,24 @@ public class MainGameLoop {
         texture.setShineDamper(10);
         texture.setReflectivity(1);
  
-        Entity entity = new Entity(staticModel, new Vector3f(0,-7,-30),0,0,0,1);
+        Entity dragon = new Entity(staticModel, new Vector3f(0,-7,-30),0,0,0,1);
         Light light = new Light(new Vector3f(-10,0,-20),new Vector3f(1,1,1));
          
         Camera camera = new Camera();
          
+        MasterRenderer renderer = new MasterRenderer();
+        
         while(!Display.isCloseRequested()){
-            entity.increaseRotation(0, 1, 0);
+            dragon.increaseRotation(0, 1, 0);
             camera.move();
-            renderer.prepare();
-            shader.start();
-            shader.loadLight(light);
-            shader.loadViewMatrix(camera);
-            renderer.render(entity,shader);
-            shader.stop();
+            
+            renderer.processEntity(dragon);
+            
+            renderer.render(light, camera);
             DisplayManger.updateDisplay();
         }
  
-        shader.cleanUp();
+        renderer.cleanUp();
         loader.cleanUP();
         DisplayManger.closeDisplay();
  
