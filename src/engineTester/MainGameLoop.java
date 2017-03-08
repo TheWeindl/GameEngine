@@ -30,8 +30,9 @@ public class MainGameLoop {
         ModelTexture texture = staticModel.getTexture();
         texture.setShineDamper(10);
         texture.setReflectivity(1);
- 
+       
         Entity dragon = new Entity(staticModel, new Vector3f(0,-7,-30),0,0,0,1);
+        
         Light light = new Light(new Vector3f(-10,0,-20),new Vector3f(1,1,1));
          
         Camera camera = new Camera();
@@ -39,11 +40,23 @@ public class MainGameLoop {
         MasterRenderer renderer = new MasterRenderer();
         
         while(!Display.isCloseRequested()){
+        	
+        	//////////////////////////////////////////////////
+        	//				MOVEMENT						//
+        	//////////////////////////////////////////////////
             dragon.increaseRotation(0, 1, 0);
             camera.move();
             
+            
+            //////////////////////////////////////////////////
+            //				ENTITY QUEQUING					//
+            //////////////////////////////////////////////////
             renderer.processEntity(dragon);
             
+            
+            //////////////////////////////////////////////////
+            //				RENDERING						//
+            //////////////////////////////////////////////////
             renderer.render(light, camera);
             DisplayManger.updateDisplay();
         }
