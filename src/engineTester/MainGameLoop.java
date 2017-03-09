@@ -1,5 +1,9 @@
 package engineTester;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -11,39 +15,44 @@ import renderEngine.DisplayManger;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
-import renderEngine.Renderer;
-import shaders.StaticShader;
+import terrains.Terrain;
 import textures.ModelTexture;
 
 public class MainGameLoop {
 	 
     public static void main(String[] args) {
  
+
         DisplayManger.createDisplay();
         Loader loader = new Loader();
-            
-        //Vertices, indices and textures replaced by the OBJ loader
-        RawModel model = OBJLoader.loadObjModel("dragon", loader);
          
-        //TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("image")));			//Textures for the demo cube
-        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("white")));
-        ModelTexture texture = staticModel.getTexture();
-        texture.setShineDamper(10);
-        texture.setReflectivity(1);
- 
-        Entity dragon = new Entity(staticModel, new Vector3f(0,-7,-30),0,0,0,1);
-        Light light = new Light(new Vector3f(-10,0,-20),new Vector3f(1,1,1));
          
-        Camera camera = new Camera();
+        RawModel model = OBJLoader.loadObjModel("tree", loader);
          
+        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("tree")));
+         
+        List<Entity> entities = new ArrayList<Entity>();
+        Random random = new Random();
+        for(int i=0;i<500;i++){
+            entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,3));
+        }
+         
+        Light light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
+         
+        Terrain terrain = new Terrain(-1,-1,loader,new ModelTexture(loader.loadTexture("grass")));
+        Terrain terrain2 = new Terrain(0,-1,loader,new ModelTexture(loader.loadTexture("grass")));
+         
+        Camera camera = new Camera(0.1f); 			//Sensitivity of mouse movement (Value between 0 and 1)   
         MasterRenderer renderer = new MasterRenderer();
-        
+         
         while(!Display.isCloseRequested()){
-            dragon.increaseRotation(0, 1, 0);
             camera.move();
-            
-            renderer.processEntity(dragon);
-            
+             
+            renderer.processTerrains(terrain);
+            renderer.processTerrains(terrain2);
+            for(Entity entity:entities){
+                renderer.processEntity(entity);
+            }
             renderer.render(light, camera);
             DisplayManger.updateDisplay();
         }
