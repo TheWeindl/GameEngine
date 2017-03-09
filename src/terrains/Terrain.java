@@ -19,6 +19,8 @@ public class Terrain {
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
         this.model = generateTerrain(loader);
+        texture.setShineDamper(100);
+        texture.setReflectivity(0);
     }
      
      

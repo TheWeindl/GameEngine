@@ -37,12 +37,12 @@ public class MainGameLoop {
             entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,3));
         }
          
-        Light light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
+        Light light = new Light(new Vector3f(1000,20000,1000),new Vector3f(1,1,1));
          
         Terrain terrain = new Terrain(-1,-1,loader,new ModelTexture(loader.loadTexture("grass")));
         Terrain terrain2 = new Terrain(0,-1,loader,new ModelTexture(loader.loadTexture("grass")));
          
-        Camera camera = new Camera(0.1f); 			//Sensitivity of mouse movement (Value between 0 and 1)   
+        Camera camera = new Camera(0.5f); 			//Sensitivity of mouse movement (Value between 0 and 1)   
         MasterRenderer renderer = new MasterRenderer();
          
         while(!Display.isCloseRequested()){
