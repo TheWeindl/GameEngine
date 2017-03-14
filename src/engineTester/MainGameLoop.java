@@ -28,13 +28,16 @@ public class MainGameLoop {
          
          
         RawModel model = OBJLoader.loadObjModel("tree", loader);
+        RawModel normalTree = OBJLoader.loadObjModel("NormalTreeTex", loader);
          
         TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("tree")));
+        TexturedModel staticTree = new TexturedModel(normalTree,new ModelTexture(loader.loadTexture("blue")));
          
         List<Entity> entities = new ArrayList<Entity>();
         Random random = new Random();
         for(int i=0;i<500;i++){
             entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,3));
+            entities.add(new Entity(staticTree, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,1));
         }
          
         Light light = new Light(new Vector3f(1000,20000,1000),new Vector3f(1,1,1));
